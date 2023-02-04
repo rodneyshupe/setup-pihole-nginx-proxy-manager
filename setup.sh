@@ -83,13 +83,14 @@ function change_lighttpd_config() {
 
 function install_npm() {
     mkdir -p $HOME/.config/nginx-proxy-manager/data
-    mkdir -p $HOME/.config/letsencrypt
+    mkdir -p $HOME/.config/nginx-proxy-manager/letsencrypt
 
     cat >$HOME/.config/nginx-proxy-manager/docker-compose.yml <<EOF
 version: "3"
 services:
   app:
     image: 'jc21/nginx-proxy-manager:latest'
+    container-name: nginx-proxy-manager
     restart: unless-stopped
     ports:
       # These ports are in format <host-port>:<container-port>
@@ -110,14 +111,14 @@ services:
 
     volumes:
       - $HOME/.config/nginx-proxy-manager/data:/data
-      - $HOME/.config/letsencrypt:/etc/letsencrypt
+      - $HOME/.config/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
 EOF
 
     docker-compose -f $HOME/.config/nginx-proxy-manager/docker-compose.yml up -d
 }
 
 
-if ! docker -v >/dev/null ; then
+if ! $(docker-compose -v >/dev/null 2>&1) ; then
     echo "Docker needs to be installed."
     echo ""
     confirm "Do you want to continue?"
@@ -134,7 +135,7 @@ else
     echo "About to move Pi-Hole administration to port $port"
     confirm "Do you want to continue?"
 
-    change_lighttpd_config
+    change_lighttpd_config $port
     echo
 
     echo "About to install the container for Nginx Proxy Manager"
