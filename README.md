@@ -1,9 +1,11 @@
 # Install Nginx Proxy Manager on Pi-hole server
+
 This script will install a docker container for [Nginx Proxy Manager](https://nginxproxymanager.com/) on the same server you are running Pi-hole.
 
 ## Install
 
 To execute this script you can either [download](https://raw.githubusercontent.com/rodneyshupe/setup-pihole-nginx-proxy-manager/main/setup.sh) and execute the script. or just execute the following:
+
 ```sh
 curl https://raw.githubusercontent.com/rodneyshupe/setup-pihole-nginx-proxy-manager/main/setup.sh | bash
 ```
